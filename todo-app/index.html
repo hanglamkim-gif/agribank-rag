@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng dụng Quản lý Công việc - KTNB Agribank</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f6f9; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #0056b3; margin-bottom: 20px; font-size: 24px; }
+        
+        /* Form nhập liệu */
+        .form-group { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .form-group input { flex: 1; min-width: 200px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .btn-add { background-color: #28a745; color: white; }
+        .btn-add:hover { background-color: #218838; }
+        
+        /* Bộ lọc */
+        .filter-group { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; background: #e9ecef; padding: 10px; border-radius: 4px; }
+        .filter-btn { background: #white; border: 1px solid #0056b3; color: #0056b3; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        .filter-btn.active { background: #0056b3; color: white; }
+        
+        /* Danh sách công việc */
+        .task-list { list-style: none; }
+        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; background: #fafafa; margin-bottom: 8px; border-radius: 4px; }
+        .task-info { flex: 1; }
+        .task-title { font-weight: bold; margin-bottom: 4px; }
+        .task-assignee { font-size: 12px; color: #666; }
+        .task-status { display: inline-block; padding: 3px 8px; font-size: 12px; border-radius: 12px; margin-right: 10px; }
+        .status-chua_lam { background: #ffeeba; color: #856404; }
+        .status-dang_lam { background: #b8daff; color: #004085; }
+        .status-xong { background: #c3e6cb; color: #155724; }
+        
+        /* Thao tác */
+        .actions { display: flex; gap: 5px; }
+        .btn-status { background: #17a2b8; color: white; font-size: 12px; padding: 5px 8px; }
+        .btn-edit { background: #ffc107; color: #212529; font-size: 12px; padding: 5px 8px; }
+        .btn-delete { background: #dc3545; color: white; font-size: 12px; padding: 5px 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>QUẢN LÝ CÔNG VIỆC KTNB AGRIBANK</h1>
+
+    <!-- Thêm công việc -->
+    <div class="form-group">
+        <input type="text" id="taskName" placeholder="Tên công việc...">
+        <input type="text" id="assignee" placeholder="Người phụ trách...">
+        <button class="btn btn-add" onclick="addTask()">Thêm công việc</button>
+    </div>
+
+    <!-- Bộ lọc trạng thái -->
+    <div class="filter-group">
+        <span>Lọc trạng thái:</span>
+        <button class="filter-btn active" onclick="filterTasks('all', this)">Tất cả</button>
+        <button class="filter-btn" onclick="filterTasks('dang_lam', this)">Đang làm</button>
+        <button class="filter-btn" onclick="filterTasks('xong', this)">Xong</button>
+    </div>
+
+    <!-- Danh sách hiển thị -->
+    <ul class="task-list" id="taskList"></ul>
+</div>
+
+<script>
+    // Dữ liệu ban đầu
+    let tasks = [
+        { id: 1, ten: "Rà soát Thông tư 41/2016", nguoi_phu_trach: "Nguyễn Văn A", trang_thai: "dang_lam" },
+        { id: 2, ten: "Lập checklist kiểm toán CNTT", nguoi_phu_trach: "Trần Thị B", trang_thai: "chua_lam" },
+        { id: 3, ten: "Đối chiếu quy định tín dụng", nguoi_phu_trach: "Lê Văn C", trang_thai: "xong" }
+    ];
+
+    let currentFilter = 'all';
+
+    // Render danh sách công việc
+    function renderTasks() {
+        const listEl = document.getElementById('taskList');
+        listEl.innerHTML = '';
+
+        const filteredTasks = tasks.filter(task => {
+            if (currentFilter === 'all') return true;
+            return task.trang_thai === currentFilter;
+        });
+
+        filteredTasks.forEach(task => {
+            const li = document.createElement('li');
+            li.className = 'task-item';
+
+            let statusText = task.trang_thai === 'xong' ? 'Xong' : (task.trang_thai === 'dang_lam' ? 'Đang làm' : 'Chưa làm');
+
+            li.innerHTML = `
+                <div class="task-info">
+                    <div class="task-title">
+                        <span class="task-status status-${task.trang_thai}">${statusText}</span>
+                        ${task.ten}
+                    </div>
+                    <div class="task-assignee">Phụ trách: ${task.nguoi_phu_trach}</div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-status" onclick="toggleStatus(${task.id})">Đổi trạng thái</button>
+                    <button class="btn btn-edit" onclick="editTask(${task.id})">Sửa</button>
+                    <button class="btn btn-delete" onclick="deleteTask(${task.id})">Xóa</button>
+                </div>
+            `;
+            listEl.appendChild(li);
+        });
+    }
+
+    // Thêm công việc
+    function addTask() {
+        const nameInput = document.getElementById('taskName');
+        const assigneeInput = document.getElementById('assignee');
+
+        if (!nameInput.value.trim() || !assigneeInput.value.trim()) {
+            alert('Vui lòng nhập đầy đủ tên công việc và người phụ trách!');
+            return;
+        }
+
+        const newTask = {
+            id: Date.now(),
+            ten: nameInput.value.trim(),
+            nguoi_phu_trach: assigneeInput.value.trim(),
+            trang_thai: 'chua_lam'
+        };
+
+        tasks.push(newTask);
+        nameInput.value = '';
+        assigneeInput.value = '';
+        renderTasks();
+    }
+
+    // Đổi trạng thái
+    function toggleStatus(id) {
+        tasks = tasks.map(t => {
+            if (t.id === id) {
+                if (t.trang_thai === 'chua_lam') t.trang_thai = 'dang_lam';
+                else if (t.trang_thai === 'dang_lam') t.trang_thai = 'xong';
+                else t.trang_thai = 'chua_lam';
+            }
+            return t;
+        });
+        renderTasks();
+    }
+
+    // Sửa công việc
+    function editTask(id) {
+        const task = tasks.find(t => t.id === id);
+        if (!task) return;
+
+        const newName = prompt('Sửa tên công việc:', task.ten);
+        const newAssignee = prompt('Sửa người phụ trách:', task.nguoi_phu_trach);
+
+        if (newName && newAssignee) {
+            task.ten = newName.trim();
+            task.nguoi_phu_trach = newAssignee.trim();
+            renderTasks();
+        }
+    }
+
+    // Xóa công việc
+    function deleteTask(id) {
+        if (confirm('Bạn có chắc chắn muốn xóa công việc này?')) {
+            tasks = tasks.filter(t => t.id !== id);
+            renderTasks();
+        }
+    }
+
+    // Lọc danh sách
+    function filterTasks(status, btn) {
+        currentFilter = status;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderTasks();
+    }
+
+    // Chạy lần đầu
+    renderTasks();
+</script>
+
+</body>
+</html>
