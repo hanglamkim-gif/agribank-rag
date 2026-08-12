@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Văn bản Nội bộ - KTNB Agribank</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f6f9; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #0056b3; margin-bottom: 20px; font-size: 22px; }
+        .form-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .form-group input { flex: 1; min-width: 180px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-add { background-color: #28a745; color: white; }
+        .filter-group { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; background: #e9ecef; padding: 10px; border-radius: 4px; }
+        .filter-group input { flex: 1; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; }
+        .filter-btn { background: white; border: 1px solid #0056b3; color: #0056b3; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        .filter-btn.active { background: #0056b3; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+        th { background-color: #f8f9fa; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; }
+        .badge-success { background: #c3e6cb; color: #155724; }
+        .badge-danger { background: #f5c6cb; color: #721c24; }
+        .actions button { padding: 4px 8px; font-size: 12px; margin-right: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>QUẢN LÝ VĂN BẢN NỘI BỘ KTNB AGRIBANK</h1>
+
+    <!-- Form thêm văn bản -->
+    <div class="form-group">
+        <input type="text" id="soHieu" placeholder="Số hiệu (vd: 15/2026/QĐ-KTNB)">
+        <input type="text" id="tieuDe" placeholder="Tiêu đề văn bản...">
+        <input type="date" id="ngayBanHanh">
+        <button class="btn btn-add" onclick="addDoc()">Thêm văn bản</button>
+    </div>
+
+    <!-- Tìm kiếm & Lọc -->
+    <div class="filter-group">
+        <input type="text" id="searchKey" placeholder="Tìm theo số hiệu hoặc tiêu đề..." oninput="renderDocs()">
+        <button class="filter-btn active" onclick="setFilter('all', this)">Tất cả</button>
+        <button class="filter-btn" onclick="setFilter('con_hieu_luc', this)">Còn hiệu lực</button>
+        <button class="filter-btn" onclick="setFilter('het_hieu_luc', this)">Hết hiệu lực</button>
+    </div>
+
+    <!-- Bảng danh sách -->
+    <table>
+        <thead>
+            <tr>
+                <th>Số hiệu</th>
+                <th>Tiêu đề</th>
+                <th>Ngày ban hành</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="docTableBody"></tbody>
+    </table>
+</div>
+
+<script>
+    let documents = [
+        { id: 1, so_hieu: "15/2026/QĐ-KTNB", tieu_de: "Quy định kiểm toán hệ thống CNTT", ngay_ban_hanh: "2026-01-15", con_hieu_luc: true },
+        { id: 2, so_hieu: "41/2016/TT-NHNN", tieu_de: "Quy định tỷ lệ an toàn vốn", ngay_ban_hanh: "2016-12-30", con_hieu_luc: true },
+        { id: 3, so_hieu: "02/2020/HD-KTNB", tieu_de: "Hướng dẫn đối chiếu rủi ro tín dụng", ngay_ban_hanh: "2020-05-10", con_hieu_luc: false }
+    ];
+
+    let currentFilter = 'all';
+
+    function renderDocs() {
+        const body = document.getElementById('docTableBody');
+        const searchKey = document.getElementById('searchKey').value.toLowerCase();
+        body.innerHTML = '';
+
+        const filtered = documents.filter(doc => {
+            const matchesSearch = doc.so_hieu.toLowerCase().includes(searchKey) || doc.tieu_de.toLowerCase().includes(searchKey);
+            if (currentFilter === 'all') return matchesSearch;
+            if (currentFilter === 'con_hieu_luc') return matchesSearch && doc.con_hieu_luc;
+            if (currentFilter === 'het_hieu_luc') return matchesSearch && !doc.con_hieu_luc;
+        });
+
+        filtered.forEach(doc => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><b>${doc.so_hieu}</b></td>
+                <td>${doc.tieu_de}</td>
+                <td>${doc.ngay_ban_hanh}</td>
+                <td><span class="badge ${doc.con_hieu_luc ? 'badge-success' : 'badge-danger'}">${doc.con_hieu_luc ? 'Còn hiệu lực' : 'Hết hiệu lực'}</span></td>
+                <td class="actions">
+                    <button onclick="toggleStatus(${doc.id})">Đổi hiệu lực</button>
+                    <button onclick="deleteDoc(${doc.id})">Xóa</button>
+                </td>
+            `;
+            body.appendChild(tr);
+        });
+    }
+
+    function addDoc() {
+        const soHieu = document.getElementById('soHieu').value.trim();
+        const tieuDe = document.getElementById('tieuDe').value.trim();
+        const ngayBanHanh = document.getElementById('ngayBanHanh').value;
+
+        if (!soHieu || !tieuDe || !ngayBanHanh) {
+            alert('Vui lòng nhập đầy đủ thông tin văn bản!');
+            return;
+        }
+
+        documents.push({ id: Date.now(), so_hieu: soHieu, tieu_de: tieuDe, ngay_ban_hanh: ngayBanHanh, con_hieu_luc: true });
+        document.getElementById('soHieu').value = '';
+        document.getElementById('tieuDe').value = '';
+        document.getElementById('ngayBanHanh').value = '';
+        renderDocs();
+    }
+
+    function toggleStatus(id) {
+        documents = documents.map(d => d.id === id ? { ...d, con_hieu_luc: !d.con_hieu_luc } : d);
+        renderDocs();
+    }
+
+    function deleteDoc(id) {
+        if (confirm('Xóa văn bản này?')) {
+            documents = documents.filter(d => d.id !== id);
+            renderDocs();
+        }
+    }
+
+    function setFilter(filter, btn) {
+        currentFilter = filter;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderDocs();
+    }
+
+    renderDocs();
+</script>
+
+</body>
+</html>
