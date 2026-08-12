@@ -1,0 +1,32 @@
+[
+  {
+    "ten": "Rà soát Thông tư 41/2016",
+    "nguoi_phu_trach": "Nguyễn Văn A",
+    "trang_thai": "dang_lam"
+  },
+  {
+    "ten": "Lập checklist kiểm toán CNTT",
+    "nguoi_phu_trach": "Trần Thị B",
+    "trang_thai": "xong"
+  },
+  {
+    "ten": "Đối chiếu quy định tín dụng",
+    "nguoi_phu_trach": "Lê Văn C",
+    "trang_thai": "xong"
+  },
+  {
+    "ten": "Kiểm tra an toàn hệ thống Core Banking",
+    "nguoi_phu_trach": "Nguyễn Văn A",
+    "trang_thai": "chua_lam"
+  },
+  {
+    "ten": "Đánh giá rủi ro vận hành Q3",
+    "nguoi_phu_trach": "Phạm Văn D",
+    "trang_thai": "dang_lam"
+  },
+  {
+    "ten": "Tổng hợp báo cáo kiểm toán nội bộ",
+    "nguoi_phu_trach": "Trần Thị B",
+    "trang_thai": "chua_lam"
+  }
+]
