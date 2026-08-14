@@ -1,0 +1,4 @@
+# Khởi tạo .gitignore
+__pycache__/
+.env
+storage/
