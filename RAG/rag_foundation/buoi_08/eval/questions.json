@@ -1,0 +1,58 @@
+﻿[
+  {
+    "query_id": "Q01",
+    "question": "Mức xử phạt khi nhân viên đi trễ là bao nhiêu?",
+    "relevant_chunk_ids": ["CHUNK_01", "CHUNK_02"],
+    "scope": "in_scope",
+    "needs_human_review": true
+  },
+  {
+    "query_id": "Q02",
+    "question": "Quy định về thời gian thử việc?",
+    "relevant_chunk_ids": ["CHUNK_03"],
+    "scope": "in_scope",
+    "needs_human_review": true
+  },
+  {
+    "query_id": "Q03",
+    "question": "Quy trình xin nghỉ phép như thế nào?",
+    "relevant_chunk_ids": ["CHUNK_04"],
+    "scope": "in_scope",
+    "needs_human_review": true
+  },
+  {
+    "query_id": "Q04",
+    "question": "Bao nhiêu ngày thì được coi là nghỉ không phép?",
+    "relevant_chunk_ids": ["CHUNK_04", "CHUNK_05"],
+    "scope": "in_scope",
+    "needs_human_review": true
+  },
+  {
+    "query_id": "Q05",
+    "question": "Cách reset mật khẩu email công ty?",
+    "relevant_chunk_ids": [],
+    "scope": "out_of_scope",
+    "needs_human_review": true
+  },
+  {
+    "query_id": "Q06",
+    "question": "Chính sách thai sản áp dụng cho nam giới ra sao?",
+    "relevant_chunk_ids": ["CHUNK_06"],
+    "scope": "in_scope",
+    "needs_human_review": true
+  },
+  {
+    "query_id": "Q07",
+    "question": "Nhân viên vi phạm hợp đồng bồi thường thế nào?",
+    "relevant_chunk_ids": ["CHUNK_07"],
+    "scope": "in_scope",
+    "needs_human_review": true
+  },
+  {
+    "query_id": "Q08",
+    "question": "Mức thưởng lễ tết là bao nhiêu?",
+    "relevant_chunk_ids": ["CHUNK_08"],
+    "scope": "in_scope",
+    "needs_human_review": true
+  }
+]

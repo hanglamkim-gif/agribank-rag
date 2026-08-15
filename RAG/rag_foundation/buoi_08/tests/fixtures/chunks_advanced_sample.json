@@ -1,0 +1,74 @@
+﻿[
+  {
+    "chunk_id": "CHUNK_01",
+    "strategy": "hierarchical",
+    "source": "QuyDinh_KyLuat_v1.pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "text": "Điều 15. Xử lý vi phạm thời giờ làm việc. 1. Nhân viên đi trễ dưới 15 phút sẽ bị nhắc nhở. Lặp lại 3 lần trong tháng sẽ bị khiển trách."
+  },
+  {
+    "chunk_id": "CHUNK_02",
+    "strategy": "hierarchical",
+    "source": "QuyDinh_KyLuat_v1.pdf",
+    "page_start": 2,
+    "page_end": 2,
+    "text": "Khoản 2 Điều 15. Đi trễ từ 15 phút đến 60 phút không có lý do chính đáng sẽ bị trừ 1/4 ngày công."
+  },
+  {
+    "chunk_id": "CHUNK_03",
+    "strategy": "hierarchical",
+    "source": "HopDongLaoDong.pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "text": "Điều 5. Thời gian thử việc là 60 ngày đối với chức danh có yêu cầu trình độ từ cao đẳng trở lên."
+  },
+  {
+    "chunk_id": "CHUNK_04",
+    "strategy": "hierarchical",
+    "source": "QuyChe_NgayNghi.pdf",
+    "page_start": 3,
+    "page_end": 3,
+    "text": "Điều 8. Quy trình xin nghỉ phép: Nhân viên phải tạo yêu cầu trên hệ thống quản lý trước ít nhất 2 ngày đối với phép từ 1 đến 3 ngày."
+  },
+  {
+    "chunk_id": "CHUNK_05",
+    "strategy": "hierarchical",
+    "source": "QuyChe_NgayNghi.pdf",
+    "page_start": 4,
+    "page_end": 4,
+    "text": "Điều 10. Tự ý nghỉ việc từ 05 ngày cộng dồn trong 30 ngày mà không có lý do chính đáng sẽ bị xem xét sa thải."
+  },
+  {
+    "chunk_id": "CHUNK_06",
+    "strategy": "hierarchical",
+    "source": "ChinhSach_PhucLoi.pdf",
+    "page_start": 5,
+    "page_end": 5,
+    "text": "Điều 12. Lao động nam có vợ sinh con được nghỉ việc hưởng chế độ thai sản 05 ngày làm việc."
+  },
+  {
+    "chunk_id": "CHUNK_07",
+    "strategy": "hierarchical",
+    "source": "QuyDinh_KyLuat_v1.pdf",
+    "page_start": 10,
+    "page_end": 10,
+    "text": "Điều 20. Nhân viên vi phạm thỏa thuận bảo mật phải bồi thường toàn bộ thiệt hại thực tế phát sinh."
+  },
+  {
+    "chunk_id": "CHUNK_08",
+    "strategy": "hierarchical",
+    "source": "ChinhSach_PhucLoi.pdf",
+    "page_start": 8,
+    "page_end": 8,
+    "text": "Điều 15. Mức thưởng lễ 30/4 và 1/5 là 1.000.000 VNĐ tùy thuộc vào quỹ khen thưởng hàng năm."
+  },
+  {
+    "chunk_id": "CHUNK_09_OUT",
+    "strategy": "hierarchical",
+    "source": "KhongLienQuan.pdf",
+    "page_start": 1,
+    "page_end": 1,
+    "text": "Để cấu hình hệ thống mạng nội bộ, hãy mở bảng điều khiển quản trị."
+  }
+]
