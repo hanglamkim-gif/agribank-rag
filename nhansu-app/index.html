@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhân sự - KTNB Agribank</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f6f9; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #0056b3; margin-bottom: 20px; font-size: 24px; text-transform: uppercase; }
+        
+        /* Form nhập liệu */
+        .form-group { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; background: #f8f9fa; padding: 15px; border-radius: 4px; border: 1px solid #ddd; }
+        .form-group input, .form-group select { flex: 1; min-width: 150px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .btn-add { background-color: #28a745; color: white; width: 100%; margin-top: 10px; }
+        .btn-add:hover { background-color: #218838; }
+        
+        /* Bộ lọc và Tìm kiếm */
+        .filter-search-bar { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+        .search-box { flex: 1; min-width: 200px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .filter-group { display: flex; gap: 10px; align-items: center; }
+        .filter-btn { background: white; border: 1px solid #0056b3; color: #0056b3; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        .filter-btn.active { background: #0056b3; color: white; }
+        
+        /* Bảng hiển thị nhân sự */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #0056b3; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        tr:hover { background-color: #ddd; }
+        
+        /* Trạng thái */
+        .status-badge { display: inline-block; padding: 4px 8px; font-size: 12px; border-radius: 12px; font-weight: bold; text-align: center; min-width: 90px; }
+        .status-active { background: #c3e6cb; color: #155724; }
+        .status-inactive { background: #f5c6cb; color: #721c24; }
+        
+        /* Thao tác */
+        .actions { display: flex; gap: 5px; justify-content: center; }
+        .btn-status { background: #17a2b8; color: white; font-size: 12px; padding: 5px 8px; }
+        .btn-edit { background: #ffc107; color: #212529; font-size: 12px; padding: 5px 8px; }
+        .btn-delete { background: #dc3545; color: white; font-size: 12px; padding: 5px 8px; }
+
+        /* RAG Chat Widget */
+        .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .chat-bubble { width: 60px; height: 60px; background-color: #0056b3; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 24px; transition: transform 0.2s; }
+        .chat-bubble:hover { transform: scale(1.1); }
+        .chat-window { display: none; width: 350px; height: 500px; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); flex-direction: column; overflow: hidden; position: absolute; bottom: 80px; right: 0; }
+        .chat-window.open { display: flex; }
+        .chat-header { background: #0056b3; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .chat-close { cursor: pointer; font-size: 20px; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8f9fa; }
+        .msg { max-width: 85%; padding: 10px 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+        .msg-user { background: #0056b3; color: white; align-self: flex-end; border-bottom-right-radius: 0; }
+        .msg-bot { background: #e9ecef; color: #333; align-self: flex-start; border-bottom-left-radius: 0; }
+        .msg-bot-context { font-size: 11px; color: #666; margin-top: 5px; border-top: 1px solid #ccc; padding-top: 5px; white-space: pre-wrap; }
+        .chat-input { display: flex; padding: 10px; background: white; border-top: 1px solid #eee; }
+        .chat-input input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; padding-left: 15px; }
+        .chat-input button { background: #0056b3; color: white; border: none; padding: 10px 15px; border-radius: 20px; margin-left: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Quản lý Nhân sự KTNB</h1>
+
+    <!-- Form Thêm Nhân sự -->
+    <div class="form-group">
+        <input type="text" id="maNV" placeholder="Mã nhân viên (VD: NV01)...">
+        <input type="text" id="hoTen" placeholder="Họ và tên...">
+        <input type="text" id="chucVu" placeholder="Chức vụ (VD: Chuyên viên)...">
+        <input type="text" id="phongBan" placeholder="Phòng ban...">
+        <button class="btn btn-add" onclick="addEmployee()">Thêm nhân sự</button>
+    </div>
+
+    <!-- Tìm kiếm và Lọc -->
+    <div class="filter-search-bar">
+        <input type="text" id="searchBox" class="search-box" placeholder="Tìm kiếm theo Mã NV hoặc Tên..." onkeyup="renderEmployees()">
+        <div class="filter-group">
+            <span>Lọc:</span>
+            <button class="filter-btn active" onclick="filterEmployees('all', this)">Tất cả</button>
+            <button class="filter-btn" onclick="filterEmployees('active', this)">Đang làm việc</button>
+            <button class="filter-btn" onclick="filterEmployees('inactive', this)">Đã nghỉ</button>
+        </div>
+    </div>
+
+    <!-- Danh sách nhân sự -->
+    <table>
+        <thead>
+            <tr>
+                <th>Mã NV</th>
+                <th>Họ và tên</th>
+                <th>Chức vụ</th>
+                <th>Phòng ban</th>
+                <th>Trạng thái</th>
+                <th style="text-align: center;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="employeeList">
+        </tbody>
+    </table>
+</div>
+
+<!-- RAG Chat Widget -->
+<div class="chat-widget">
+    <div class="chat-bubble" onclick="toggleChat()">💬</div>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            Trợ lý AI Agribank
+            <span class="chat-close" onclick="toggleChat()">×</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg msg-bot">Xin chào! Tôi có thể giúp gì cho bạn về các quy định nhân sự?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Nhập câu hỏi..." onkeypress="handleChatEnter(event)">
+            <button onclick="sendChatMessage()">Gửi</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dữ liệu mẫu ban đầu
+    let employees = [
+        { id: 1, ma_nv: "NV001", ho_ten: "Nguyễn Văn A", chuc_vu: "Chuyên viên", phong_ban: "KTNB 1", trang_thai: "active" },
+        { id: 2, ma_nv: "NV002", ho_ten: "Trần Thị B", chuc_vu: "Phó phòng", phong_ban: "KTNB 2", trang_thai: "active" },
+        { id: 3, ma_nv: "NV003", ho_ten: "Lê Văn C", chuc_vu: "Chuyên viên", phong_ban: "KTNB 1", trang_thai: "inactive" }
+    ];
+
+    let currentFilter = 'all';
+
+    // Render danh sách nhân sự
+    function renderEmployees() {
+        const tbody = document.getElementById('employeeList');
+        const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+        tbody.innerHTML = '';
+
+        const filteredEmployees = employees.filter(emp => {
+            // Lọc theo trạng thái
+            const matchStatus = currentFilter === 'all' || emp.trang_thai === currentFilter;
+            // Lọc theo tìm kiếm
+            const matchSearch = emp.ma_nv.toLowerCase().includes(searchTerm) || emp.ho_ten.toLowerCase().includes(searchTerm);
+            return matchStatus && matchSearch;
+        });
+
+        if(filteredEmployees.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">Không tìm thấy nhân sự phù hợp</td></tr>';
+            return;
+        }
+
+        filteredEmployees.forEach(emp => {
+            const tr = document.createElement('tr');
+            
+            const statusText = emp.trang_thai === 'active' ? 'Đang làm việc' : 'Đã nghỉ';
+            const statusClass = emp.trang_thai === 'active' ? 'status-active' : 'status-inactive';
+
+            tr.innerHTML = `
+                <td><strong>${emp.ma_nv}</strong></td>
+                <td>${emp.ho_ten}</td>
+                <td>${emp.chuc_vu}</td>
+                <td>${emp.phongBan || emp.phong_ban}</td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td class="actions">
+                    <button class="btn btn-status" onclick="toggleStatus(${emp.id})">Đổi TT</button>
+                    <button class="btn btn-edit" onclick="editEmployee(${emp.id})">Sửa</button>
+                    <button class="btn btn-delete" onclick="deleteEmployee(${emp.id})">Xóa</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Thêm nhân sự
+    function addEmployee() {
+        const maNV = document.getElementById('maNV').value.trim();
+        const hoTen = document.getElementById('hoTen').value.trim();
+        const chucVu = document.getElementById('chucVu').value.trim();
+        const phongBan = document.getElementById('phongBan').value.trim();
+
+        if (!maNV || !hoTen || !chucVu || !phongBan) {
+            alert('Vui lòng nhập đầy đủ thông tin nhân sự!');
+            return;
+        }
+        
+        // Kiểm tra trùng Mã NV
+        if(employees.some(emp => emp.ma_nv.toLowerCase() === maNV.toLowerCase())) {
+            alert('Mã nhân viên đã tồn tại!');
+            return;
+        }
+
+        const newEmp = {
+            id: Date.now(),
+            ma_nv: maNV,
+            ho_ten: hoTen,
+            chuc_vu: chucVu,
+            phong_ban: phongBan,
+            trang_thai: 'active'
+        };
+
+        employees.push(newEmp);
+        
+        // Clear form
+        document.getElementById('maNV').value = '';
+        document.getElementById('hoTen').value = '';
+        document.getElementById('chucVu').value = '';
+        document.getElementById('phongBan').value = '';
+        
+        renderEmployees();
+    }
+
+    // Đổi trạng thái làm việc
+    function toggleStatus(id) {
+        employees = employees.map(emp => {
+            if (emp.id === id) {
+                emp.trang_thai = emp.trang_thai === 'active' ? 'inactive' : 'active';
+            }
+            return emp;
+        });
+        renderEmployees();
+    }
+
+    // Sửa nhân sự
+    function editEmployee(id) {
+        const emp = employees.find(e => e.id === id);
+        if (!emp) return;
+
+        const newHoTen = prompt('Sửa Họ và tên:', emp.ho_ten);
+        if(newHoTen === null) return; // Hủy
+        
+        const newChucVu = prompt('Sửa Chức vụ:', emp.chuc_vu);
+        const newPhongBan = prompt('Sửa Phòng ban:', emp.phong_ban);
+
+        if (newHoTen.trim() && newChucVu.trim() && newPhongBan.trim()) {
+            emp.ho_ten = newHoTen.trim();
+            emp.chuc_vu = newChucVu.trim();
+            emp.phong_ban = newPhongBan.trim();
+            renderEmployees();
+        } else {
+            alert("Thông tin không được để trống!");
+        }
+    }
+
+    // Xóa nhân sự
+    function deleteEmployee(id) {
+        if (confirm('Bạn có chắc chắn muốn xóa nhân sự này?')) {
+            employees = employees.filter(e => e.id !== id);
+            renderEmployees();
+        }
+    }
+
+    // Lọc danh sách
+    function filterEmployees(status, btn) {
+        currentFilter = status;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderEmployees();
+    }
+
+    // Render lần đầu
+    renderEmployees();
+
+    // --- CHAT WIDGET JS ---
+    function toggleChat() {
+        const chatWindow = document.getElementById('chatWindow');
+        chatWindow.classList.toggle('open');
+    }
+
+    function handleChatEnter(e) {
+        if (e.key === 'Enter') sendChatMessage();
+    }
+
+    async function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const query = input.value.trim();
+        if (!query) return;
+
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // Add user message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'msg msg-user';
+        userMsg.innerText = query;
+        chatMessages.appendChild(userMsg);
+        
+        input.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Add loading bot message
+        const loadingMsg = document.createElement('div');
+        loadingMsg.className = 'msg msg-bot';
+        loadingMsg.innerText = 'Đang suy nghĩ...';
+        chatMessages.appendChild(loadingMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query })
+            });
+            const result = await response.json();
+            
+            chatMessages.removeChild(loadingMsg);
+            
+            if (response.ok) {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'msg msg-bot';
+                // Thay thế \n bằng thẻ <br> để xuống dòng hiển thị đẹp hơn
+                botMsg.innerHTML = result.answer.replace(/\n/g, '<br>');
+                
+                // Add context details if available
+                if (result.context) {
+                    const ctxDiv = document.createElement('div');
+                    ctxDiv.className = 'msg-bot-context';
+                    ctxDiv.innerText = 'Nguồn tham chiếu:\n' + result.context;
+                    botMsg.appendChild(ctxDiv);
+                }
+                
+                chatMessages.appendChild(botMsg);
+            } else {
+                const errMsg = document.createElement('div');
+                errMsg.className = 'msg msg-bot';
+                errMsg.style.color = 'red';
+                errMsg.innerText = result.loi || 'Đã xảy ra lỗi.';
+                chatMessages.appendChild(errMsg);
+            }
+        } catch (error) {
+            chatMessages.removeChild(loadingMsg);
+            const errMsg = document.createElement('div');
+            errMsg.className = 'msg msg-bot';
+            errMsg.style.color = 'red';
+            errMsg.innerText = 'Lỗi kết nối máy chủ.';
+            chatMessages.appendChild(errMsg);
+        }
+        
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+
+</body>
+</html>

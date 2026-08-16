@@ -1,3 +1,8 @@
+import sys
+import asyncio
+
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -18,6 +23,16 @@ import re
 import sys
 import io
 import unicodedata
+
+# Thêm import cho hệ thống RAG
+from RAG.rag_foundation.buoi_06.src.loader import DocumentLoader
+from RAG.rag_foundation.buoi_06.src.embedding import RAGVectorStore
+from RAG.rag_foundation.buoi_06.src.retriever import DocumentRetriever
+from RAG.rag_foundation.buoi_06.src.generator import RAGGenerator
+
+# Biến toàn cục RAG
+rag_retriever = None
+rag_generator = None
 
 # Đảm bảo Windows console in UTF-8 không bị lỗi charmap
 if hasattr(sys.stdout, 'buffer'):
@@ -87,6 +102,28 @@ def doc_du_lieu_ban_dau():
             }
         ]
 
+def init_rag_system():
+    """Khởi tạo hệ thống RAG (Load dữ liệu, ChromaDB, và LLM)"""
+    global rag_retriever, rag_generator
+    try:
+        print("[RAG] Đang khởi tạo hệ thống AI Chatbot...")
+        tmp_dir = os.path.join(os.path.dirname(__file__), "tmp_rag_data")
+        os.makedirs(tmp_dir, exist_ok=True)
+        with open(os.path.join(tmp_dir, "data.json"), "w", encoding="utf-8") as f:
+            json.dump(danh_sach_van_ban, f, ensure_ascii=False)
+        
+        loader = DocumentLoader(tmp_dir)
+        valid_chunks = loader.load_all()
+        
+        vector_store = RAGVectorStore(collection_name="agribank_app_collection")
+        vector_store.add_documents(valid_chunks)
+        
+        rag_retriever = DocumentRetriever(vector_store)
+        rag_generator = RAGGenerator()
+        print("[RAG] Khởi tạo hệ thống AI Chatbot thành công!")
+    except Exception as e:
+        print(f"[RAG CẢNH BÁO] Khởi tạo RAG thất bại (Chatbot có thể không hoạt động): {e}")
+
 class VanBanRequestHandler(http.server.SimpleHTTPRequestHandler):
     """Bộ xử lý Yêu cầu HTTP cho Web App & REST API"""
 
@@ -131,11 +168,38 @@ class VanBanRequestHandler(http.server.SimpleHTTPRequestHandler):
         if path == "/" or path == "/index.html":
             self.path = "/index.html"
             return http.server.SimpleHTTPRequestHandler.do_GET(self)
+            
+        if path == "/nhansu" or path == "/nhansu/":
+            self.path = "/nhansu-app/index.html"
+            return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
-        """Thêm văn bản mới vào bộ nhớ"""
+        """Xử lý Thêm văn bản hoặc Chat API"""
+        if self.path == "/api/chat":
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length).decode('utf-8')
+            try:
+                data = json.loads(body)
+                query = data.get("query", "").strip()
+                if not query:
+                    self.gui_response_json(400, {"loi": "Câu hỏi không được để trống!"})
+                    return
+                
+                if not rag_retriever or not rag_generator:
+                    self.gui_response_json(500, {"loi": "Hệ thống RAG chưa sẵn sàng!"})
+                    return
+                
+                print(f"[CHAT] Đang xử lý câu hỏi: {query}")
+                context = rag_retriever.retrieve_and_format(query, top_k=2)
+                answer = rag_generator.generate_answer(query, context)
+                
+                self.gui_response_json(200, {"answer": answer, "context": context})
+            except Exception as e:
+                self.gui_response_json(500, {"loi": f"Lỗi xử lý Chat: {str(e)}"})
+            return
+
         if self.path == "/api/vanban":
             content_length = int(self.headers.get('Content-Length', 0))
             body = self.rfile.read(content_length).decode('utf-8')
@@ -272,6 +336,7 @@ class VanBanRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 def run_server():
     doc_du_lieu_ban_dau()
+    init_rag_system()
     handler = VanBanRequestHandler
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", PORT), handler) as httpd:

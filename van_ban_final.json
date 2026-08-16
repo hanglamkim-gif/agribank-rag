@@ -1,44 +1,32 @@
 [
   {
-    "id": 1,
-    "so_hieu": "15/2026/QĐ-KTNB",
-    "tieu_de": "Quy định kiểm toán nội bộ về an toàn thông tin và bảo mật dữ liệu khách hàng",
-    "ngay_ban_hanh": "2026-03-15",
+    "so_hieu": "QD-15/2026/NHNO",
+    "loai_van_ban": "Quy định",
     "con_hieu_luc": true
   },
   {
-    "id": 2,
     "so_hieu": "QT-02/2025/NHNO",
-    "tieu_de": "Quy trình kiểm tra, giám sát tuân thủ tín dụng tại chi nhánh Agribank",
-    "ngay_ban_hanh": "2025-06-20",
+    "loai_van_ban": "Quy trình",
     "con_hieu_luc": false
   },
   {
-    "id": 3,
-    "so_hieu": "QĐ-88/2024/NHNO",
-    "tieu_de": "Quy định về quản lý và xử lý rủi ro hoạt động trong hệ thống Agribank",
-    "ngay_ban_hanh": "2024-11-10",
+    "so_hieu": "QD-88/2024/NHNO",
+    "loai_van_ban": "Quy định",
     "con_hieu_luc": true
   },
   {
-    "id": 4,
     "so_hieu": "HD-05/2026/NHNO",
-    "tieu_de": "Hướng dẫn ứng dụng trí tuệ nhân tạo (AI/RAG) hỗ trợ tra cứu văn bản quy định nội bộ",
-    "ngay_ban_hanh": "2026-01-05",
+    "loai_van_ban": "Hướng dẫn",
     "con_hieu_luc": true
   },
   {
-    "id": 5,
     "so_hieu": "QT-10/2023/NHNO",
-    "tieu_de": "Quy trình lập báo cáo tài chính và đối chiếu số liệu kiểm toán định kỳ năm 2023",
-    "ngay_ban_hanh": "2023-08-14",
+    "loai_van_ban": "Quy trình",
     "con_hieu_luc": false
   },
   {
-    "id": 6,
-    "so_hieu": "QĐ-101/2026/NHNO",
-    "tieu_de": "Quy định tiêu chuẩn đánh giá và xếp loại an toàn hoạt động kiểm toán năm 2026",
-    "ngay_ban_hanh": "2026-05-18",
+    "so_hieu": "QD-101/2026/NHNO",
+    "loai_van_ban": "Quy định",
     "con_hieu_luc": true
   }
 ]

@@ -23,7 +23,7 @@ import rag
 
 # ----------------- CẤU HÌNH TRANG STREAMLIT -----------------
 st.set_page_config(
-    page_title="Trợ lý Nghiệp vụ Ngân hàng (RAG Buổi 07)",
+    page_title="Trợ lý Nhân sự (Advanced RAG)",
     page_icon="🏦",
     layout="wide"
 )
@@ -51,6 +51,20 @@ with st.sidebar:
         help="Số lượng đoạn văn bản liên quan nhất được truy xuất."
     )
 
+    rag_max_distance = st.slider(
+        "Max Distance (Ngưỡng tin cậy):",
+        min_value=0.1,
+        max_value=1.0,
+        value=cfg.get("rag_max_distance", 0.35),
+        step=0.05,
+        key="slider_maxdist_sidebar",
+        help="Ngưỡng khoảng cách tối đa. Càng nhỏ càng khắt khe."
+    )
+    
+    # Cập nhật config động theo slider
+    cfg["rag_max_distance"] = rag_max_distance
+    cfg["default_top_k"] = top_k
+
     st.markdown("---")
     st.subheader("📊 Trạng thái Hệ thống")
 
@@ -61,7 +75,7 @@ with st.sidebar:
     st.write(f"**Embedding:** `{status_info.get('embedding_model')}` ({status_info.get('embedding_dim')}d)")
     st.write(f"**Generation:** `{status_info.get('generation_model')}`")
     st.write(f"**Số bản ghi:** `{record_count}`")
-    st.write(f"**Ngưỡng Max Distance:** `{status_info.get('rag_max_distance')}`")
+    st.write(f"**Ngưỡng Max Distance:** `{rag_max_distance}`")
 
     if cfg.get("api_key"):
         st.success("🔑 API Key: Đã sẵn sàng")
@@ -84,12 +98,12 @@ with st.sidebar:
                 st.error(f"Lỗi index: {e}")
 
 # ----------------- GIAO DIỆN CHÍNH -----------------
-st.title("🏦 Trợ lý Tra cứu Nghiệp vụ Ngân hàng (RAG Buổi 07)")
+st.title("👨‍💼 Trợ lý Tra cứu Quy định Nhân sự (Advanced RAG)")
 st.caption("Hệ thống RAG bảo đảm Grounding dữ liệu, kiểm soát Confidence Gate & Mapping Citation chính xác.")
 
 question = st.text_area(
-    "Nhập câu hỏi nghiệp vụ ngân hàng:",
-    value="Cơ cấu lại thời hạn trả nợ được quy định như thế nào?",
+    "Nhập câu hỏi liên quan đến chính sách nhân sự:",
+    value="Lao động nữ sinh con được nghỉ thai sản bao nhiêu tháng?",
     height=110,
     key="input_query_text"
 )

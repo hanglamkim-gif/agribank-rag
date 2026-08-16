@@ -1,0 +1,18 @@
+| Thành phần | Trạng thái | Ghi chú |
+|---|---|---|
+| Python interpreter | PASS | c:\agribank-rag\.venv\Scripts\python.exe |
+| Python version | PASS | Python 3.13.14 |
+| pip | PASS | 26.1.2 |
+| package: streamlit | PASS | 1.61.1 |
+| package: chromadb | PASS | 1.5.9 |
+| package: python-dotenv | PASS | 1.2.2 |
+| package: google-genai | PASS | 2.17.0 |
+| import google.genai.types | PASS | Thành công |
+| .env | PASS | Đã tồn tại, giữ nguyên |
+| ENV: GEMINI_API_KEY | PASS | Có |
+| ENV: GEMINI_EMBEDDING_MODEL | PASS | Có |
+| ENV: GEMINI_EMBEDDING_DIM | PASS | Có |
+| ENV: GEMINI_GENERATION_MODEL | PASS | Có |
+| ENV: DEFAULT_TOP_K | PASS | Có |
+| ENV: RAG_MAX_DISTANCE | PASS | Có |
+| storage directory | PASS | Đã tồn tại |

@@ -1,0 +1,37 @@
+[
+  {
+    "so_hieu": "QD-01/2026/NHNO",
+    "tieu_de": "Tài liệu hợp lệ",
+    "ngay_ban_hanh": "2026-05-12",
+    "con_hieu_luc": true,
+    "content": "Đây là nội dung tài liệu hợp lệ, không có khoảng   trắng thừa."
+  },
+  {
+    "so_hieu": "QD-02/2026/NHNO",
+    "tieu_de": "Lỗi ngày tháng sai định dạng",
+    "ngay_ban_hanh": "12/05/2026",
+    "con_hieu_luc": false,
+    "content": "Nội dung tài liệu thứ hai hợp lệ."
+  },
+  {
+    "so_hieu": "QD-03/2026/NHNO",
+    "tieu_de": "Lỗi ngày tháng hoàn toàn sai",
+    "ngay_ban_hanh": "2026/12/31",
+    "con_hieu_luc": true,
+    "content": "Nội dung tài liệu thứ ba."
+  },
+  {
+    "so_hieu": "QD-04/2026/NHNO",
+    "tieu_de": "",
+    "ngay_ban_hanh": "2026-01-01",
+    "con_hieu_luc": true,
+    "content": "Nội dung này có tiêu đề rỗng."
+  },
+  {
+    "so_hieu": "QD-05/2026/NHNO",
+    "tieu_de": "Lỗi thiếu nội dung content",
+    "ngay_ban_hanh": "2026-01-01",
+    "con_hieu_luc": true,
+    "content": "    "
+  }
+]

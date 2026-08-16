@@ -37,4 +37,4 @@ def check_env():
 
 if __name__ == "__main__":
     check_env()
-    
+    d:\VB KTNB\KE TOAN\CHI TIEU\2668-QD-NHNo-TCKT CHI TIEU NOI BO THAY THE 1468 HL15122019.pdf
