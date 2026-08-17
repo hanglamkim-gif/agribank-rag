@@ -1,0 +1,4 @@
+﻿source,target,relationship_type,evidence,reason
+123/2023/NĐ-CP,45/2020/NĐ-CP,SUA_DOI_BO_SUNG,"sửa đổi, bổ sung một số điều của Nghị định số 45/2020/NĐ-CP.",Target not found in KB (cleaned_documents/entities)
+45/2023/TT-BTC,12/2021/TT-BTC,THAM_CHIEU,Bãi bỏ Thông tư số 12/2021/TT-BTC.,Target not found in KB (cleaned_documents/entities)
+56/2018/QĐ-NHNN,789/2024/QĐ-NHNN,THAY_THE_BOI,thay thế Quyết định số 56/2018/QĐ-NHNN.,Source not found in KB (cleaned_documents/entities)

@@ -1,0 +1,12 @@
+﻿source,target,relationship_type,method,confidence,evidence
+123/2023/NĐ-CP,45/2020/NĐ-CP,SUA_DOI_BO_SUNG,rule-based,high,"sửa đổi, bổ sung một số điều của Nghị định số 45/2020/NĐ-CP."
+45/2023/TT-BTC,123/2023/NĐ-CP,THAM_CHIEU,rule-based,high,Căn cứ Nghị định số 123/2023/NĐ-CP.
+45/2023/TT-BTC,12/2021/TT-BTC,THAM_CHIEU,rule-based,high,Bãi bỏ Thông tư số 12/2021/TT-BTC.
+56/2018/QĐ-NHNN,789/2024/QĐ-NHNN,THAY_THE_BOI,rule-based,high,thay thế Quyết định số 56/2018/QĐ-NHNN.
+123/2023/NĐ-CP,Chính phủ,BAN_HANH_BOI,metadata,high,metadata.csv
+123/2023/NĐ-CP,Nguyễn Văn A,KY_BOI,metadata,high,metadata.csv
+123/2023/NĐ-CP,Tài chính,THUOC_LINH_VUC,metadata,high,metadata.csv
+45/2023/TT-BTC,Bộ Tài chính,BAN_HANH_BOI,metadata,high,metadata.csv
+789/2024/QĐ-NHNN,Ngân hàng Nhà nước Việt Nam,BAN_HANH_BOI,metadata,high,metadata.csv
+789/2024/QĐ-NHNN,Trần Văn B,KY_BOI,metadata,high,metadata.csv
+789/2024/QĐ-NHNN,Ngân hàng,THUOC_LINH_VUC,metadata,high,metadata.csv
