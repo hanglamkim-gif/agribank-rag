@@ -1,0 +1,7 @@
+pandas
+python-dotenv
+rank-bm25
+sentence-transformers
+neo4j
+streamlit
+tabulate
