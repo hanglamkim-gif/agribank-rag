@@ -1,0 +1,4 @@
+﻿chunk_id,document_id,text,title,source_file,citation,allowed_roles,allowed_roles_str
+1,1,"Nghị định 123 Căn cứ Luật Tổ chức Chính phủ... Nghị định này sửa đổi, bổ sung một số điều của Nghị định số 45/2020/NĐ-CP.",Nghị định 123/2023/NĐ-CP,ner_kb/content.csv,[Nghị định 123/2023/NĐ-CP | Chính phủ | DocID: 1],"['Admin', 'HR_Manager']","[""Admin"", ""HR_Manager""]"
+2,2,Thông tư 45 Căn cứ Nghị định số 123/2023/NĐ-CP... Bãi bỏ Thông tư số 12/2021/TT-BTC.,Thông tư 45/2023/TT-BTC,ner_kb/content.csv,[Thông tư 45/2023/TT-BTC | Bộ Tài chính | DocID: 2],"['Admin', 'Risk_Officer', 'Staff']","[""Admin"", ""Risk_Officer"", ""Staff""]"
+3,3,Quyết định 789 Căn cứ Luật Ngân hàng Nhà nước... Quyết định này thay thế Quyết định số 56/2018/QĐ-NHNN.,Quyết định 789/2024/QĐ-NHNN,ner_kb/content.csv,[Quyết định 789/2024/QĐ-NHNN | Ngân hàng Nhà nước | DocID: 3],"['Admin', 'HR_Manager', 'Risk_Officer', 'Staff', 'Guest']","[""Admin"", ""HR_Manager"", ""Risk_Officer"", ""Staff"", ""Guest""]"

@@ -5,8 +5,15 @@ class HybridRetriever:
         self.rrf_k = rrf_k
 
     def search(self, query: str, candidate_k: int = 20, top_k: int = 5):
-        bm25_res = self.bm25.search(query, top_k=candidate_k)
-        dense_res = self.dense.search(query, top_k=candidate_k)
+        total_available = len(self.bm25.df)
+        if total_available == 0:
+            return []
+
+        effective_cand_k = min(candidate_k, total_available)
+        effective_top_k = min(top_k, total_available)
+
+        bm25_res = self.bm25.search(query, top_k=effective_cand_k)
+        dense_res = self.dense.search(query, top_k=effective_cand_k)
 
         scores = {}
         info_map = {}
@@ -38,7 +45,7 @@ class HybridRetriever:
                     "dense_rank": item["rank"]
                 }
 
-        sorted_chunks = sorted(scores.items(), key=lambda x: x[1], reverse=True)[:top_k]
+        sorted_chunks = sorted(scores.items(), key=lambda x: x[1], reverse=True)[:effective_top_k]
         hybrid_results = []
         for rank, (cid, rrf_score) in enumerate(sorted_chunks, 1):
             entry = info_map[cid]
