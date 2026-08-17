@@ -1,0 +1,4 @@
+source_id,relationship_type,target_id,source,evidence_quote,confidence,verification_status,data_origin
+KS-001,MITIGATES,RR-001,Controls Manual,"Đối soát tự động giúp giảm thiểu rủi ro hạch toán sai giao dịch.",0.95,VERIFIED,Manual Audit
+RR-001,OBSERVED_AS,SK-001,Incident Report,"Sự kiện SK-001 ghi nhận thực tế sai lệch giao dịch RR-001.",0.90,VERIFIED,Incident Log
+KS-002,MITIGATES,RR-002,Security Policy,"Phân quyền truy cập ngăn chặn việc lộ lọt dữ liệu khách hàng.",0.85,VERIFIED,Policy Doc

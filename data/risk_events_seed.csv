@@ -1,0 +1,3 @@
+id,risk_id,occurred_at,discovered_at,severity,loss_amount_vnd,description,data_origin,verification_status
+SK-001,RR-001,2026-06-01,2026-06-01,Medium,15000000,Sai lệch trạng thái giao dịch được phát hiện khi đối soát cuối ngày,Incident Report,VERIFIED
+SK-002,RR-002,2026-06-05,2026-06-06,High,0,Phát hiện tài khoản ngoại biên cố gắng truy xuất danh sách khách hàng lớn,Security Alert,PROPOSED

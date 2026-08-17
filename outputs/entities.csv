@@ -1,0 +1,7 @@
+id,type,name,description,source_file,data_origin,verification_status
+RR-001,RuiRo,Giao dịch chuyển tiền bị hạch toán sai,Sai lệch số tiền hoặc tài khoản thụ hưởng khi thực hiện chuyển tiền liên ngân hàng,risk_profiles_seed.csv,Internal System,VERIFIED
+RR-002,RuiRo,Rò rỉ thông tin dữ liệu khách hàng,Truy cập trái phép hoặc lộ lọt thông tin bảo mật của khách hàng,risk_profiles_seed.csv,Audit Log,PROPOSED
+KS-001,KiemSoat,Đối soát tự động giao dịch và sổ cái,Đối soát tự động giao dịch và sổ cái,controls_seed.csv,Internal Policy,VERIFIED
+KS-002,KiemSoat,Phân quyền truy cập dữ liệu theo nguyên tắc tối thiểu,Phân quyền truy cập dữ liệu theo nguyên tắc tối thiểu,controls_seed.csv,Security Policy,VERIFIED
+SK-001,SuKienRuiRo,Sai lệch trạng thái giao dịch được phát hiện khi đối soát cuối ngày,Sai lệch trạng thái giao dịch được phát hiện khi đối soát cuối ngày,risk_events_seed.csv,Incident Report,VERIFIED
+SK-002,SuKienRuiRo,Phát hiện tài khoản ngoại biên cố gắng truy xuất danh sách khách hàng lớn,Phát hiện tài khoản ngoại biên cố gắng truy xuất danh sách khách hàng lớn,risk_events_seed.csv,Security Alert,PROPOSED

@@ -1,0 +1,3 @@
+id,name,category,description,cause,event,impact,inherent_level,residual_level,owner_unit_id,data_origin,verification_status
+RR-001,Giao dịch chuyển tiền bị hạch toán sai,Operational,Sai lệch số tiền hoặc tài khoản thụ hưởng khi thực hiện chuyển tiền liên ngân hàng,Lỗi thao tác thủ công của giao dịch viên,Hạch toán nhầm tài khoản nội bộ và khách hàng,Thiệt hại tài chính và khiếu nại khách hàng,High,Medium,UNIT-01,Internal System,VERIFIED
+RR-002,Rò rỉ thông tin dữ liệu khách hàng,Compliance,Truy cập trái phép hoặc lộ lọt thông tin bảo mật của khách hàng,Thiếu kiểm soát phân quyền hệ thống,Nhân sự không có thẩm quyền truy cập tệp dữ liệu nhạy cảm,Phạt pháp lý và mất uy tín thương hiệu,High,Low,UNIT-02,Audit Log,PROPOSED

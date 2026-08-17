@@ -1,0 +1,3 @@
+id,name,control_type,frequency,owner_role_id,effectiveness,data_origin,verification_status
+KS-001,Đối soát tự động giao dịch và sổ cái,Preventive,Daily,ROLE-01,High,Internal Policy,VERIFIED
+KS-002,Phân quyền truy cập dữ liệu theo nguyên tắc tối thiểu,Detective,Monthly,ROLE-02,Medium,Security Policy,VERIFIED
