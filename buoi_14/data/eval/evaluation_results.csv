@@ -1,0 +1,2 @@
+user_input,retrieved_contexts,response,reference,faithfulness
+Lãi suất hiện tại là bao nhiêu?,"['Ngân hàng có nhiều mức lãi suất khác nhau tùy thuộc vào kỳ hạn 1 tháng, 3 tháng, 6 tháng hay 12 tháng.']",Lãi suất ngân hàng tùy thuộc vào từng kỳ hạn và thời điểm.,Lãi suất tùy kỳ hạn.,0.5
